@@ -2,7 +2,7 @@
 #include <iostream>
 #include <cmath>
 #include <fstream>
-
+#include <iomanip>
 void print_matrix45(double matrix[4][5])
 {
     for(int i=0; i<4; i++)
@@ -169,9 +169,169 @@ bool zadanie2()
     return true;
 }
 
+// ZADANIE 3
+
+// obliczone wartosci sa dwukrotnie wieksze niz te sugerowane przez internetowe kalkulatory
+void zadanie3()
+{
+    const double eps = 1e-12;
+    const int N = 5;
+    double A[N][N] = {{1,0,0,0,0},{1,1,1,1,1},{1,3,9,27,81},{1,5,25,125,625},{1,6,36,216,1296}};
+    double b[N] = {1,1,-4,-2,-1};
+    double A2[N][N+1];
+    double x[N];
+    for (int i = 0; i < N; i++)
+    {
+        for (int j = 0; j < N + 1; j++)
+            if (j < N) A2[i][j] = A[i][j];
+            else A2[i][j] = b[i];
+    }
+    double A22[N][N + 1] = {};
+    for (int i = 0; i < N; i++)
+    {
+        for (int j = 0; j < N + 1; j++)
+        {
+            A22[i][j] = A2[i][j];
+            x[j] = A22[i][N]; /// nie wiem o co tu chodzi ale dzia≥a, metoda prÛb i b≥ÍdÛw
+        }
+    }
+    int greatest = find_biggest_row56(A22);
+    for(int i = 0; i < 6; i++) std::swap(A22[greatest][i], A22[0][i]);
+    double m = 0; // mnoønik
+    for (int i = 0; i < N - 1; i++)
+    {
+        for (int j = i + 1; j < N ; j++)
+        {
+            if (fabs(A22[i][i]) < eps) std::cout << "WRONG 2"; //fabs zwraca wartosc absolutna
+            m = A22[j][i] / A22[i][i];
+            for (int k = i + 1; k <= N; k++)
+            {
+                A22[j][k] = A22[j][k] - m * A22[i][k];
+            }
+        }
+    }
+    //etap wyliczania zmiennych
+    double s = 0; // zlicza sumÍ iloczynÛw
+    for (int i = N-1; i >= 0; i--)
+    {
+        s = A22[i][N]; // do zmiennej s trafia wektor b (ostatnia kolumna macierzy)
+        for (int j = N; j >= i + 1; j--)
+        {
+            s -= A22[i][j] * x[j];
+        }
+        if (fabs(A22[i][i]) < eps) std::cout << "WRONG 1";
+        x[i] = s / A22[i][i];
+        std::cout << 'x' << i << " = " << x[i] << std::endl;
+    }
+
+}
+
+double f1(double x)
+{
+    return tan(x) - x;
+}
+
+double df1(double x)
+{
+    return (1/pow(cos(x),2)) - 1;
+}
+
+int metoda_newtona()
+{
+    double prev = 4.5;
+    double next;
+    double eps = 0.01;
+    int counter = 0;
+    bool flag = true;
+    while(flag == true)
+    {
+        double h = f1(prev)/df1(prev);
+        next = prev - h;
+        //((tan(prev)-prev)/(1/(pow(cos(prev),2))-1));
+        prev = next;
+        if(eps <= (next - prev)) flag = false;
+        //std::cout << std::setprecision(14) << next << '\t' << std::setprecision(14) << prev << '\t' << std::setprecision(14) << next-prev << '\t' << counter << std::endl;
+        counter++;
+    }
+    return counter;
+}
+
+double f2(double x)
+{
+    return tan(x) - x;
+}
+
+int metoda_bisekcji()
+{
+    double eps = 0.001;
+    double a = 4.4;
+    double b = 4.6;
+    double c;
+    int counter = 0;
+    while((b-a) >= eps)
+    {
+        c = (a + b)/2;
+        if(f2(c) == 0) break;
+        else if(f2(c) * f2(a) < 0) b = c;
+        else a = c;
+        // std::cout << c << std::endl;
+        counter++;
+    }
+    return counter;
+}
+
+double f3(double x)
+{
+    return tan(x) - x;
+}
+
+int metoda_siecznych()
+{
+    double eps = 0.01;
+    int counter = 0;
+    double prev = 4.5000001;
+    double prev2 = 0;
+    double next = 0;
+    while((next - prev <= eps))
+    {
+        next = prev - f3(prev)*(prev - prev2)/(f3(prev) - f3(prev2));
+        counter++;
+    }
+    return counter;
+}
+
+void metoda_brenta()
+{
+
+}
+
+void zadanie4()
+{
+    int c;
+    std::cout << "czesc! obliczam x = tan(x) w okolicy 4.5" << std::endl;
+    std::cout << "1. metoda newtona; \n" << "2. metoda bisekcji;\n" << "3. metoda siecznych;\n" << "4. metoda brenta\n";
+    std::cin >> c;
+    switch (c) {
+        case 1:
+            std::cout << metoda_newtona() << std::endl;;
+            break;
+        case 2:
+            std::cout << metoda_bisekcji() << std::endl;
+            break;
+        case 3:
+            std::cout << metoda_siecznych() << std::endl;
+            break;
+        case 4:
+            metoda_brenta();
+        default:
+            std::cout << "zly wybor" << std::endl;
+            break;
+    }
+}
+
 int main(int argc, const char * argv[])
 {
-    zadanie2();
+    zadanie4();
 	return 0;
 }
 
