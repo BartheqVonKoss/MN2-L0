@@ -15,6 +15,11 @@ void Ex2b(int &n, int &M, int &f);
 void Ex3(int &n, int &M, int &f);
 double g(double x, double y);
 double g2(double x, double y);
+double u2(double &x, double &y);
+double u3(double &x, double &y);
+double u4(double &x, double &y);
+void Ex4();
+
 
 double g(double x, double y)
 {
@@ -77,8 +82,8 @@ void Ex2a(int &n, int &M, int &f)
 {
     std::ofstream myData;
     myData.open("/Users/bartlomiejkos/Downloads/Programming/MetodyNumeryczneII/data.csv", std::ios::out);
-    double h = 0.001;
-    double k = 0.001;
+    double h = 0.01;
+    double k = 0.01;
     double **matrix = new double *[n+1];
     for(int i = 0; i < n + 1; i++) matrix[i] = new double [n+1];
     for(int i = 0; i < n + 1; i++)
@@ -278,12 +283,14 @@ void Ex4()
 
 int main(int argc, const char * argv[])
 {
-
-    // Ad. 1,2a,2b,3
+    // Ex.2a,2b
     int n = 100;
-    int M = 100000;
-    int f = 1;                 // printing frequency (multiplication coefficient while printing results)
-
-    Ex4();
+    int M = 100;
+    int f = 1;                 // printing frequency (multiplication coefficient while printing results) NOTE: if frequency was changed so it has to be changed in python script
+    //Ex2a(n, M, f);
+    //Ex2b(n, M, f);           // slightly different plotted surface than expected
+    // Ex.3
+    M = 10000;
+    //Ex3(n, M, f);
     return 0;
 }
