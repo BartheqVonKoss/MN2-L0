@@ -1,6 +1,6 @@
 //
 //  main.cpp
-//  L2
+//  L3
 //
 //  Created by Bartłomiej Kos on 30/03/2018.
 //  Copyright © 2018 Bartłomiej Kos. All rights reserved.
@@ -64,10 +64,10 @@ void Ex1(int n, int M, int f)
         for(int j = 0; j < n + 1; j+=f)
         {
             std::cout << matrix[i][j] << '\t';
-            myData << matrix[i][j] << ',';
+            //myData << matrix[i][j] << ',';
         }
         std::cout << std::endl;
-        myData << '\n';
+        //myData << '\n';
     }
     for(int i = 0; i < n + 1; i++) delete [] matrix[i];
     delete [] matrix;
@@ -232,6 +232,49 @@ void Ex3(int &n, int &M, int &f)
 }
 
 // Ex. 4
+double u2(double &x, double &y)
+{
+    return x * x + y * y;
+}
+
+double u3(double &x, double &y)
+{
+    return pow(x, 4) - 6 * x * x * y * y + y * y;
+}
+
+double u4(double &x, double &y)
+{
+    return pow(x, 6) - 15 * pow(x, 4) * y * y + 15 * x * x * pow(y, 4) - pow(y, 6);
+}
+
+void Ex4()
+{
+    double x1,x2,x3,x4,y1,y2,y3,y4;
+    x1 = 0; x2 = 1; x3 = 1; x4 = 1; y1 = 2; y2 = 0; y3 = 1; y4 = 2;
+    double matrix[4][4];
+    for(int i = 0; i < 4; i++)
+    {
+        for(int j = 0; j < 4; j++)
+        {
+            if(j == 0) matrix[i][j] = 1;
+            else if(j == 1 && i == 0) matrix[i][j] = u2(x1, y1);
+            else if(j == 1 && i == 1) matrix[i][j] = u2(x2, y2);
+            else if(j == 1 && i == 2) matrix[i][j] = u2(x3, y3);
+            else if(j == 1 && i == 3) matrix[i][j] = u2(x4, y4);
+            else if(j == 2 && i == 0) matrix[i][j] = u3(x1, y1);
+            else if(j == 2 && i == 1) matrix[i][j] = u3(x2, y2);
+            else if(j == 2 && i == 2) matrix[i][j] = u3(x3, y3);
+            else if(j == 2 && i == 3) matrix[i][j] = u3(x4, y4);
+            else if(j == 3 && i == 0) matrix[i][j] = u4(x1, y1);
+            else if(j == 3 && i == 1) matrix[i][j] = u4(x2, y2);
+            else if(j == 3 && i == 2) matrix[i][j] = u4(x3, y3);
+            else if(j == 3 && i == 3) matrix[i][j] = u4(x4, y4);
+        }
+    }
+    double f[4];                        // here implement gaussian elimination but my algorithm provides with wrong results
+    f[0] = u2(x1,y1); f[1] = u2(x2,y2); f[2] = u2(x3,y3); f[3] = u2(x4,y4);
+}
+
 
 int main(int argc, const char * argv[])
 {
@@ -241,6 +284,6 @@ int main(int argc, const char * argv[])
     int M = 100000;
     int f = 1;                 // printing frequency (multiplication coefficient while printing results)
 
-    Ex3(n, M, f);
+    Ex4();
     return 0;
 }
