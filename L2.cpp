@@ -23,8 +23,8 @@ double g(double x, double y)
 // Ex. 1
 void Ex1(int n, int M, int f)
 {
-    std::ofstream myData;
-    myData.open("/Users/bartlomiejkos/Documents/Programming/C++/Metody numeryczne II/L3/data.csv", std::ios::out);
+    //std::ofstream myData;
+    //myData.open("/Users/bartlomiejkos/Documents/Programming/C++/Metody numeryczne II/L3/data.csv", std::ios::out);
     double h;
     double k;
     double **matrix = new double *[n+1];                // definition of base to hold results
@@ -69,6 +69,8 @@ void Ex1(int n, int M, int f)
         std::cout << std::endl;
         myData << '\n';
     }
+    for(int i = 0; i < n + 1; i++) delete [] matrix[i];
+    delete [] matrix;
 }
 // Ex. 2a
 void Ex2a(int &n, int &M, int &f)
@@ -117,6 +119,8 @@ void Ex2a(int &n, int &M, int &f)
         myData << '\n';
         i /= f;
     }
+    for(int i = 0; i < n + 1; i++) delete [] matrix[i];
+    delete [] matrix;
 }
 
 double g2(double x, double y)
@@ -168,6 +172,8 @@ void Ex2b(int &n, int &M, int &f)
         std::cout << std::endl;
         myData << '\n';
     }
+    for(int i = 0; i < n + 1; i++) delete [] matrix[i];
+    delete [] matrix;
 }
 
 // Ex. 3
@@ -221,18 +227,20 @@ void Ex3(int &n, int &M, int &f)
     }
     std::cout << std::endl;
     std::cout << w << std::endl;
+    for(int i = 0; i < n + 1; i++) delete [] matrix[i];
+    delete [] matrix;
 }
 
 // Ex. 4
 
 int main(int argc, const char * argv[])
 {
-    /*
+
     // Ad. 1,2a,2b,3
     int n = 100;
     int M = 100000;
     int f = 1;                 // printing frequency (multiplication coefficient while printing results)
-     */
-    
-     return 0;
+
+    Ex3(n, M, f);
+    return 0;
 }
